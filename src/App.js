@@ -1,55 +1,84 @@
-import { createElement } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState} from 'react';
+import style from './app.module.css';
 
-// декларативный стиль
-// export const App = () => {
-// 	const currentYear = new Date().getFullYear();
-// 	return (
-// 		<div className="App">
-// 			<header className="App-header">
-// 				<img src={logo} className="App-logo" alt="logo" />
-// 				<p>
-// 					Edit <code>src/App.js</code> and save to reload 2.
-// 				</p>
-// 				<a
-// 					className="App-link"
-// 					href="https://reactjs.org"
-// 					target="_blank"
-// 					rel="noopener noreferrer"
-// 				>
-// 					Learn React
-// 				</a>
-// 				<h1>{currentYear}</h1>
-// 			</header>
-// 		</div>
-// 	);
-// };
+const calculatorButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '+', '-', '=', 'C'];
 
-// императивный стил
-export function App() {
-	return createElement(
-		'div',
-		{ className: 'App' },
-
-		createElement(
-			'h1',
-			{ className: 'App-header' },
-
-			createElement('img', {
-				src: logo,
-				className: 'App-logo',
-				target: '_blank',
-				alt: 'logo',
-			}),
-
-			createElement(
-				'p',
-				{ className: '' },
-				'Edit <code>src/App.js</code> and save to reload 2.',
-			),
-
-			createElement('h1', { className: '' }, new Date().getFullYear()),
-		),
-	);
+function ButtonCalc(props) {
+	const buttonCalculator = calculatorButtons.map((button) => {
+		return (
+			<button 
+        key={button} 
+				className={style.calculatorNumbers} 
+				onClick = { () => {
+					props.onClick(button);
+				}}
+			>
+				{button}
+			</button>
+		);
+	});
+	return buttonCalculator;
 }
+
+export const App = () => {
+	const [display, setDisplay] = useState('');
+	const [previousValue, setPreviousValue] = useState(null);
+	const [operator, setOperator] = useState(null);
+	const [isResult, setResult] = useState(false);
+
+	const handleOnClick = (button) => {
+		if (!isNaN(button)) {
+			setDisplay((display) => display + button);
+		}
+		else {
+			switch (button) {
+				case '+':
+				case '-':
+					setPreviousValue(Math.round(display));
+					setDisplay('');
+					setOperator(button);
+					setResult(false);
+					break;
+				case '=':
+					if (!operator || previousValue === null) return;
+					const currentNumber = Math.round(display);
+					let result = 0;
+					switch (operator) {
+						case '+':
+							result = previousValue + currentNumber;
+							break;
+						case '-':
+							result = previousValue - currentNumber;
+							break;
+						default:
+							break;
+					}
+					setDisplay(result);
+					setPreviousValue(null);
+					setOperator(null);
+					setResult(true);
+					break;
+				case 'C':
+					setDisplay('');
+					setPreviousValue(null);
+					setOperator(null);
+					setResult(false);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	return (
+		<div className={style.header}>
+			<div className={style.wrapper}>
+				<div className={isResult ? style.inputDisplayGreen : style.inputDisplayWhite}>{display}</div>
+				<div className={style.dialPad}>
+					<ButtonCalc onClick={handleOnClick}/>
+			</div>
+			</div>
+		</div>
+	);
+};
+

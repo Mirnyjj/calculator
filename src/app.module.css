@@ -1,0 +1,60 @@
+.header {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.wrapper {
+	display: flex;
+	flex-flow: column;
+	max-width: 350px;
+	gap: 15px;
+	background-color: rgb(25, 42, 87);
+	border-radius: 40px;
+}
+.inputDisplayWhite {
+	height: 60px;
+	border-radius: 40px;
+	color: white;
+	background-color: #025669;
+	text-align: center;
+	font-size: 40px;
+}
+.inputDisplayGreen {
+	color: green;
+	height: 60px;
+	border-radius: 40px;
+	background-color: #025669;
+	text-align: center;
+	font-size: 40px;
+
+}
+.dialPad {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	height: 220px;
+	border-radius: 40px;
+	color: white;
+	background-color: #025669;
+	gap: 15px;
+}
+
+
+.calculatorNumbers {	
+	width: 50px;
+	height: 50px;
+	background-color: #023c49;
+	border-radius: 50%;
+	color: aqua;
+	text-align: center;
+	font-size: 35px;
+	border: 1px solid #ccc;
+
+}
+.button {
+	cursor: pointer;
+}
+
